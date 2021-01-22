@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kendo UI Demo</title>
+        <link href="https://kendo.cdn.telerik.com/2020.3.1118/styles/kendo.common.min.css" rel="stylesheet">
+        <link href="https://kendo.cdn.telerik.com/2020.3.1118/styles/kendo.default.min.css" rel="stylesheet">
+        <script src="https://kendo.cdn.telerik.com/2020.3.1118/js/jquery.min.js"></script>
+        <script src="https://kendo.cdn.telerik.com/2020.3.1118/js/kendo.all.min.js"></script>
+    </head>
+    <body>
+        <div id="grid"></div>
+        <script>
+        $("#grid").kendoGrid({
+          columns: [
+            { field: "id" },
+            { field: "name" },
+            { field: "age" },
+            { command: "edit" }
+          ],
+          dataSource: {
+            data: [
+              { id: 1, name: "Jane Doe", age: 30 },
+              { id: 2, name: "John Doe", age: 33 }
+            ],
+            schema: {
+              model: {
+                id: "id",
+                fields: {
+                  "id": { type: "number" }
+                }
+              }
+            }
+          },
+          editable: "popup",
+          toolbar:["create"],
+          edit: function(e) {
+            if (!e.model.isNew()) {
+              // Disable the editor of the "id" column when editing data items
+              var numeric = e.container.find("input[name=id]").data("kendoNumericTextBox");
+              numeric.enable(false);
+            }
+          },
+          save: function(e) {
+            console.log(e.model.id + ", "+ e.model.name + ", "+ e.model.age);
+          }
+        });
+        </script>
+    </body>
+</html>

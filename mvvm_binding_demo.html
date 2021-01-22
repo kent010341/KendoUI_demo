@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="styles/kendo.default.min.css" />
+    <link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/kendo.all.min.js"></script>
+</head>
+<body>
+    <div id="view">
+        <input data-role="textbox" data-bind="value: inputVal, events:{change: onTextChange}"/>
+        <input type="checkbox" data-role="switch" data-bind="checked: isChecked, events: {change: onCheckboxChange}"/>
+        <button data-role="button" data-bind="click: onBtnClick, visible: isBtnVisible">Submit</button><br>
+        <textarea data-role="textarea" data-bind="value: textareaVal"></textarea>
+    </div>
+    
+    <script>
+        var viewModel = kendo.observable({
+            inputVal: "Input",
+            textareaVal: "textarea",
+            isChecked: false,
+            isBtnVisible: true,
+            onBtnClick: function() {
+                console.log("onBtnClick");
+                this.set("textareaVal", this.get("inputVal"));
+            },
+            onCheckboxChange: function() {
+                console.log("onCheckboxChange: " + kendo.stringify(this.get("isChecked")));
+                this.set("isBtnVisible", this.get("isChecked"));
+            },
+            onTextChange: function(e) {
+                console.log("onChange");
+                if (this.get("isChecked")) {
+                    this.set("textareaVal", this.get("inputVal"));
+                }
+            }
+        });
+
+        kendo.bind($("#view"), viewModel);
+    </script>
+</body>
+</html>

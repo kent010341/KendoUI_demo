@@ -34,6 +34,8 @@
                 height: 800,
                 groupable: true,
                 sortable: true,
+                editable: "popup",
+                toolbar: ["create", "save"],
                 pageable: {
                     refresh: true,
                     pageSizes: true,
@@ -41,24 +43,29 @@
                 },
                 columns: [{
                     field: "ContactName",
-                    title: "Contact Name",
-                    width: 200
+                    title: "Contact Name"
                 }, {
                     field: "ContactTitle",
-                    title: "Contact Title",
-                    width: 200
+                    title: "Contact Title"
                 }, {
                     field: "CompanyName",
-                    title: "Company Name",
-                    width: 200
+                    title: "Company Name"
                 }, {
-                    field: "Country",
-                    width: 150
-                }]
+                    field: "Country"
+                },{
+                    command: "edit"
+                }],
+                edit: function(e) {
+                    if (!e.model.isNew()) {
+                      // Disable the editor of the "id" column when editing data items
+                      var numeric = e.container.find("input[name=id]").data("kendoNumericTextBox");
+                      numeric.enable(false);
+                    }
+                }
             });
         });
     </script>
-</div>
+    </div>
 
 </body>
 </html>
