@@ -12,34 +12,30 @@
         <script>
             var ranges = [{
                 from: 0,
-                to: 30,
-                color: "#F97172"
-            }, {
-                from: 30,
                 to: 60,
-                color: "#FADE71"
+                color: "lightgreen"
             }, {
                 from: 60,
                 to: 100,
-                color: "#67DF65"
+                color: "red"
             }];
 
             $("#gauge-demo").kendoRadialGauge({
-                theme: 'metro',
+                theme: 'none',
                 pointer: {
                     value: 50,
                     cap: {
-                        size: 0.1,
+                        size: 0.01,
                         color: "black"
                     }
                 },
                 scale: {
-                    minorUnit: 1,
+                    minorUnit: 10,
                     majorTicks: {
                         size: 3
                     },
-                    startAngle: -10,
-                    endAngle: 190,
+                    startAngle: 0,
+                    endAngle: 180,
                     max: 100,
                     labels: {
                         visible: true,
