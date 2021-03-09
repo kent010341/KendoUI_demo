@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kendo UI Demo</title>
+        <link href="https://kendo.cdn.telerik.com/2020.3.1118/styles/kendo.common.min.css" rel="stylesheet">
+        <link href="https://kendo.cdn.telerik.com/2020.3.1118/styles/kendo.default.min.css" rel="stylesheet">
+        <script src="https://kendo.cdn.telerik.com/2020.3.1118/js/jquery.min.js"></script>
+        <script src="https://kendo.cdn.telerik.com/2020.3.1118/js/kendo.all.min.js"></script>
+    </head>
+    <body>
+        <div class="demo-section k-content wide">
+            <div id="chart"/>
+        </div>
+        <script>
+            var valTempCurr = 80;
+            var valTempAlarm = 50;
+            var valMax = 100;
+            var colorTemp = (valTempCurr < valTempAlarm) ? "green" : "red";
+            var valRemain = valMax - valTempCurr;
+
+            var center;
+            var innerRadius, outerRadius;
+
+            $("#chart").kendoChart({
+                title: {
+                    position: "top",
+                    text: "溫度"
+                },
+                legend: {
+                    visible: false
+                },
+                seriesDefaults: {
+                    type: "donut",
+                    startAngle: 0,
+                    holeSize: 90
+                },
+                series: [{
+                    data: [{
+                        category: "current",
+                        value: valTempCurr,
+                        color: colorTemp
+                    },{
+                        category: "remain",
+                        value: valRemain,
+                        color: "#DDDDDD"
+                    },{
+                        category: "empty",
+                        value: valMax,
+                        color: "none"
+                    }],
+                    visual: function(e) {
+                        center = e.center;
+                        innerRadius = e.innerRadius;
+                        outerRadius = e.radius;
+
+                        return e.createVisual();
+                    }
+                }],
+                render: function(e) {
+                    // 0度是右水平線，順直針
+                    var radian = (180 + (180/valMax) * valTempAlarm) * Math.PI / 180;
+                    var x1 = Math.cos(radian) * innerRadius + center.x;
+                    var y1 = Math.sin(radian) * innerRadius + center.y;
+                    var x2 = Math.cos(radian) * outerRadius + center.x;
+                    var y2 = Math.sin(radian) * outerRadius + center.y;
+
+                    var path = new kendo.drawing.Path({
+                        stroke: {
+                          color: "#000",
+                          width: 2,
+                          dashType: "dash"
+                        }
+                    });
+                    /*
+                    var text = new kendo.drawing.Text({
+                        content: "abc",
+                        position: center,
+                        options: { 
+                            font: "8px Verdana,Arial,sans-serif" 
+                        }
+                    });*/
+                    var text = new kendo.drawing.Text(
+                        kendo.toString(valTempCurr),
+                        [center.x-20, center.y-35],
+                        {font: "30px Verdana,Arial,sans-serif"}
+                    );
+
+                    path.moveTo(x1, y1).lineTo(x2, y2, 0).close();
+                    e.sender.surface.draw(path);
+                    e.sender.surface.draw(text);
+                }
+            });
+        </script>
+    </body>
+</html>
