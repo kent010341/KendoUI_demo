@@ -16,7 +16,7 @@
         </table>
         <script>
             var valAlarm = 50;
-            var valCurr = 60;
+            var valCurr = 80;
 
             var colorBar = (valCurr < valAlarm) ? "green" : "red";
 
@@ -27,7 +27,13 @@
                 series: [{
                     type: "bullet",
                     color: colorBar,
-                    data: [[valCurr, valAlarm]]
+                    data: [{
+                        current: valCurr, 
+                        target: valAlarm
+                    }],
+                    target: {
+                        color: "black"
+                    }
                 }],
                 chartArea: {
                     margin: {
