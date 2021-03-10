@@ -34,16 +34,16 @@
                 height: 800,
                 groupable: true,
                 sortable: true,
-                editable: "popup",
-                toolbar: ["create", "save"],
+                editable: "popup", // true/false, "popup", "inline"
+                toolbar: ["create", "save"], // 工具列，參考：https://docs.telerik.com/kendo-ui/api/javascript/ui/grid/configuration/toolbar
                 pageable: {
                     refresh: true,
                     pageSizes: true,
-                    buttonCount: 5
+                    buttonCount: 5 // 顯示於畫面的換頁按鈕數量，其他就...
                 },
-                columns: [{
-                    field: "ContactName",
-                    title: "Contact Name"
+                columns: [{ // 欄位設定
+                    field: "ContactName", // 欄位id
+                    title: "Contact Name" // 欄位顯示字串
                 }, {
                     field: "ContactTitle",
                     title: "Contact Title"

@@ -31,11 +31,11 @@
 
                 $("#chart").kendoChart({
                     title: {
-                        position: "top",
+                        position: "top", // position只有"top"和"bottom"
                         text: "溫度"
                     },
                     legend: {
-                        visible: false
+                        visible: false // 每個顏色顯示名稱
                     },
                     seriesDefaults: {
                         type: "donut",
@@ -43,7 +43,7 @@
                     },
                     series: [{
                         data: [{
-                            category: "filled",
+                            category: "filled", // 當legend.visible為true時會顯示的名稱
                             value: valTempCurr,
                             color: colorTemp
                         },{
@@ -57,10 +57,10 @@
                         },{
                             category: "empty",
                             value: 100,
-                            color: "none"
+                            color: "none" // color為"none"時就是透明
                         }]
                     }],
-                    tooltip: {
+                    tooltip: { // 滑鼠移動到上方時的顯示，有templete可以用
                         visible: false
                     }
                 });

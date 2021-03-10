@@ -26,18 +26,18 @@
                 },
                 series: [{
                     type: "bullet",
-                    color: colorBar,
+                    color: colorBar, // 數值線的顏色
                     data: [{
-                        current: valCurr, 
-                        target: valAlarm
+                        current: valCurr, // 當前數值，以長條形呈現
+                        target: valAlarm // 目標數值，以細直線呈現
                     }],
-                    target: {
-                        color: "black"
+                    target: { // 目標線設定
+                        color: "black" 
                     }
                 }],
                 chartArea: {
-                    margin: {
-                        left: 0
+                    margin: { // 圖表對齊
+                        left: 0 // 往左對齊，距離0
                     }
                 },/*
                 categoryAxis: {
@@ -49,21 +49,21 @@
                     }
                 },*/
                 valueAxis: [{
-                    plotBands: [{
+                    plotBands: [{ // 圖表背景色塊
                         from: 0, to: valAlarm, color: "#ccc", opacity: .6
                     }, {
                         from: valAlarm, to: 100, color: "#ccc", opacity: .3
                     }],
-                    majorGridLines: {
+                    majorGridLines: { // 色塊內的線
                         visible: true
                     },
                     min: 0,
                     max: 100,
-                    minorTicks: {
+                    minorTicks: { // 刻度線
                         visible: true
                     }
                 }],
-                tooltip: {
+                tooltip: { // 滑鼠移動到上方時的顯示
                     opacity: .8,
                     visible: true,
                     template: "Current: #= value.current # <br /> Alarm: #= value.target #"

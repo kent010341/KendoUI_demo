@@ -22,11 +22,11 @@
 
             $("#pie-chart").kendoChart({
                 title: {
-                    position: "top",
+                    position: "top", // position只有"top"和"bottom"
                     text: "temperature"
                 },
                 legend: {
-                    visible: false
+                    visible: false // 每個顏色顯示名稱
                 },/*
                 chartArea: {
                     background: "none" // default: "white"
@@ -35,7 +35,7 @@
                     type: "pie",
                     startAngle: 0,
                     data: [{
-                        category: "filled",
+                        category: "filled", // 當legend.visible為true時會顯示的名稱
                         value: valTempCurr,
                         color: colorTemp
                     }, {
@@ -45,16 +45,16 @@
                     }, {
                         category: "empty",
                         value: valMax,
-                        color: "none"
+                        color: "none" // color為"none"時就是透明
                     }],
-                    visual: function(e) {
+                    visual: function(e) { // 用來取得chart的properties，如圓心、半徑
                         center = e.center;
                         radius = e.radius;
 
                         return e.createVisual();
                     }
                 }],
-                render: function(e) {
+                render: function(e) { // 用drawing API自訂繪製
                     // 0度是右水平線，順直針
                     var radian = (180 + (180/valMax) * valTempAlarm) * Math.PI / 180;
                     var nx = Math.cos(radian) * radius + center.x;
@@ -64,11 +64,11 @@
                     stroke: {
                       color: "#000",
                       width: 2,
-                      dashType: "dash"
+                      dashType: "dash" // 虛線
                     }
                     });                  
-                    path.moveTo(center).lineTo(nx, ny, 0).close();
-                    e.sender.surface.draw(path);
+                    path.moveTo(center).lineTo(nx, ny, 0).close(); // 設定虛線起點終點座標
+                    e.sender.surface.draw(path); // 將虛線畫上去
                 }
             });
         </script>

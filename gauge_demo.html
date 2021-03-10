@@ -21,28 +21,30 @@
             }];
 
             $("#gauge-demo").kendoRadialGauge({
+                // Radial Gauge的主題，參考：https://docs.telerik.com/kendo-ui/api/javascript/dataviz/ui/radialgauge/configuration/theme
                 theme: 'none',
-                pointer: {
-                    value: 50,
-                    cap: {
-                        size: 0.01,
-                        color: "black"
+                pointer: { // 指針
+                    value: 50, // 指針數值
+                    cap: { // 指針圓心
+                        size: 0.01, // 圓心大小
+                        color: "black" // 原新顏色
                     }
                 },
-                scale: {
-                    minorUnit: 10,
+                scale: { // 刻度
+                    minorUnit: 10, // 刻度單位
                     majorTicks: {
-                        size: 3
+                        size: 3 // 刻度線長度
                     },
-                    startAngle: 0,
-                    endAngle: 180,
-                    max: 100,
-                    labels: {
+                    startAngle: 0, // 開始角度，單位：度
+                    endAngle: 180, // 結束角度，單位：度
+                    min: 0, // 最小值，角度對應startAngle
+                    max: 100, // 最大值，角度對應endAngle
+                    labels: { // 刻度文字
                         visible: true,
                         position: "inside"
                     },
-                    rangeSize: 10,
-                    ranges: ranges
+                    rangeSize: 10, // 外面那個環形的寬度
+                    ranges: ranges // 用來設定數值對應的顏色
                 }
             });
         </script>

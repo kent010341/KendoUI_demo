@@ -23,20 +23,20 @@
 
             $("#chart").kendoChart({
                 title: {
-                    position: "top",
+                    position: "top", // position只有"top"和"bottom"
                     text: "溫度"
                 },
                 legend: {
-                    visible: false
+                    visible: false // 每個顏色顯示名稱
                 },
                 seriesDefaults: {
                     type: "donut",
                     startAngle: 0,
-                    holeSize: 90
+                    holeSize: 90  // donut中間的洞的半徑，單位是pixel
                 },
                 series: [{
                     data: [{
-                        category: "current",
+                        category: "current", // 當legend.visible為true時會顯示的名稱
                         value: valTempCurr,
                         color: colorTemp
                     },{
@@ -46,9 +46,9 @@
                     },{
                         category: "empty",
                         value: valMax,
-                        color: "none"
+                        color: "none" // color為"none"時就是透明
                     }],
-                    visual: function(e) {
+                    visual: function(e) { // 用來取得chart的properties，如圓心、內徑、外徑
                         center = e.center;
                         innerRadius = e.innerRadius;
                         outerRadius = e.radius;
@@ -56,7 +56,7 @@
                         return e.createVisual();
                     }
                 }],
-                render: function(e) {
+                render: function(e) { // 用drawing API自訂繪製
                     // 0度是右水平線，順直針
                     var radian = (180 + (180/valMax) * valTempAlarm) * Math.PI / 180;
                     var x1 = Math.cos(radian) * innerRadius + center.x;
@@ -68,7 +68,7 @@
                         stroke: {
                           color: "#000",
                           width: 2,
-                          dashType: "dash"
+                          dashType: "dash" // 虛線
                         }
                     });
                     /*
@@ -81,13 +81,13 @@
                     });*/
                     var text = new kendo.drawing.Text(
                         kendo.toString(valTempCurr),
-                        [center.x-20, center.y-35],
+                        [center.x-20, center.y-35], // 繪圖元件左上角的位置
                         {font: "30px Verdana,Arial,sans-serif"}
                     );
 
-                    path.moveTo(x1, y1).lineTo(x2, y2, 0).close();
-                    e.sender.surface.draw(path);
-                    e.sender.surface.draw(text);
+                    path.moveTo(x1, y1).lineTo(x2, y2, 0).close(); // 設定虛線起點終點座標
+                    e.sender.surface.draw(path); // 將虛線畫上去
+                    e.sender.surface.draw(text); // 將文字畫上去
                 }
             });
         </script>

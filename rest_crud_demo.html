@@ -13,11 +13,11 @@
             <script>
                 $(function () {
                     var serviceBaseUrl = "http://localhost:8181/cxf/webapi/EntitySample/";
-                    var ds = new kendo.data.DataSource({
+                    var ds = new kendo.data.DataSource({ // 遠端資料remote可以透過DataSource實作
                         edit: function(e) {
                             console.log(e.model);
                         },
-                        transport: {
+                        transport: { // CRUD設定
                             read: {
                                 url: serviceBaseUrl,
                                 contentType: "application/json",
@@ -29,34 +29,34 @@
                                 contentType: "application/json",
                                 dataType: "json",
                                 type: "POST",
-                                data: function(options) {
+                                data: function(options) { // 回傳的body
                                     return {
                                         val1: options.models[0].val1
                                     };
                                 }
                             },
                             update: {
-                                url: function(options) {
+                                url: function(options) { // 透過function產生url
                                     return serviceBaseUrl + options.models[0].id;
                                 },
                                 contentType: "application/json",
                                 dataType: "json",
                                 type: "PUT", 
-                                data: function(options) {
+                                data: function(options) { // 回傳的body
                                     return {
                                         val1: options.models[0].val1
                                     };
                                 }
                             },
                             destroy: {
-                                url: function(options) {
+                                url: function(options) { // 透過function產生url
                                     return serviceBaseUrl + options.models[0].id;
                                 },
                                 contentType: "application/json",
                                 dataType: "json",
                                 type: "DELETE"
                             },
-                            parameterMap: function (options, operation) {
+                            parameterMap: function (options, operation) { // 用parameterMap協助Json處理
                                 if (operation !== "read" && options.models) {
                                     return kendo.stringify(options.models[0]);
                                 }
@@ -66,7 +66,7 @@
                         pageSize: 20,
                         schema: {
                             model: {
-                                id: "id",
+                                id: "id", // 用作id的column
                                 fields: {
                                     id: { editable: false, nullable: true },
                                     val1: { validation: { required: true } }
@@ -75,13 +75,13 @@
                         }
                     });
 
-                    ds.fetch(function() {
+                    ds.fetch(function() { // debug用的listener，成功GET到資料時觸發
                         console.log("fetch success, length:" + ds.view().length);
                     });
                                    
                     var cols = [{field: "id"}, {field: "val1"}, {command: ["edit", "destroy"]}];
                      
-                    $("#grid").kendoGrid({
+                    $("#grid").kendoGrid({ // 表格設定
                         dataSource: ds,
                         height: 800,
                         toolbar: ["create"],
