@@ -8,71 +8,42 @@
         <script src="https://kendo.cdn.telerik.com/2020.3.1118/js/kendo.all.min.js"></script>
     </head>
     <body>
-        <div id="chartView">
-            <div class="chartView" 
-                 data-role="chart"
-                 data-title="{position: 'top', text: '溫度'}"
-                 data-legend="{visible: false}"
-                 data-seriesDefaults="{type: 'donut', startAngle: 0, holeSize: 90}"
-                 data-series="[{data: [
-                     {value: valCurr, color: colorCurr}, 
-                     {value: valRemain, color: '#DDDDDD'},
-                     {value: 100, color: 'none'}
-                 ]}, visual: visualFunc]"
-                 data-render="renderFunc">
+        <div id="mainView">
+            <input data-role="slider" 
+                   data-min="0" 
+                   data-max="100" 
+                   data-show-buttons="false" 
+                   data-small-step="1" 
+                   data-large-step="5" 
+                   data-bind="value: selectedNumber">
+            <div data-role="chart"
+                 data-title="{ position: 'top', text: '溫度' }"
+                 data-legend="{ visible: false }"
+                 data-series-defaults="{ type: 'donut', startAngle: 0, holeSize: 90 }"
+                 data-bind="source: chartSource">
             </div>
          </div>
         <script>
-            var valTempCurr = 80;
-            var valTempAlarm = 50;
+            var valCurr = 80;
+            var valAlarm = 50;
             var valMax = 100;
-            var colorTemp = (valTempCurr < valTempAlarm) ? "green" : "red";
-            var valTempRemain = valMax - valTempCurr;
+            var colorCurr = (valCurr < valAlarm) ? "green" : "red";
+            var valRemain = valMax - valCurr;
 
-            var center;
-            var innerRadius, outerRadius;
+            //var center;
+            //var innerRadius, outerRadius;
 
             var viewModel = kendo.observable({
-                valCurr: valTempCurr,
-                colorCurr: colorTemp,
-                valRemain: valTempRemain,
-
-                visualFunc: function(e) { // 用來取得chart的properties，如圓心、內徑、外徑
-                    center = e.center;
-                    innerRadius = e.innerRadius;
-                    outerRadius = e.radius;
-
-                    return e.createVisual();
-                },
-
-                renderFunc: function(e) { // 用drawing API自訂繪製
-                    // 0度是右水平線，順直針
-                    var radian = (180 + (180/valMax) * valTempAlarm) * Math.PI / 180;
-                    var x1 = Math.cos(radian) * innerRadius + center.x;
-                    var y1 = Math.sin(radian) * innerRadius + center.y;
-                    var x2 = Math.cos(radian) * outerRadius + center.x;
-                    var y2 = Math.sin(radian) * outerRadius + center.y;
-
-                    var path = new kendo.drawing.Path({
-                        stroke: {
-                          color: "#000",
-                          width: 2,
-                          dashType: "dash" // 虛線
-                        }
-                    });
-                    var text = new kendo.drawing.Text(
-                        kendo.toString(valTempCurr),
-                        [center.x-20, center.y-35], // 繪圖元件左上角的位置
-                        {font: "30px Verdana,Arial,sans-serif"}
-                    );
-
-                    path.moveTo(x1, y1).lineTo(x2, y2, 0).close(); // 設定虛線起點終點座標
-                    e.sender.surface.draw(path); // 將虛線畫上去
-                    e.sender.surface.draw(text); // 將文字畫上去
-                }
+                chartSource: new kendo.data.DataSource({
+                    data: [
+                        {value: valCurr, color: colorCurr}, 
+                        {value: valRemain, color: '#DDDDDD'},
+                        {value: 100, color: 'none'}
+                    ]
+                })
             });
 
-            kendo.bind($("#chartView"), viewModel);
+            kendo.bind($("#mainView"), viewModel);
         </script>
     </body>
 </html>
